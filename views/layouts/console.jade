@@ -1,0 +1,25 @@
+extends ./base.jade
+
+block content
+  body.hold-transition.skin-blue.sidebar-mini
+    .wrapper
+      header.main-header
+        block header
+          include ./header.jade
+      aside.main-sidebar
+        block sidebar
+          include ./sidebar.jade
+      .content-wrapper
+        section.content-header
+          h1
+            | #{(page)? page.name : ''}
+        section.content
+          .row
+            block right-content
+      footer.main-footer
+        include ./footer.jade
+      aside.control-sidebar.control-sidebar-dark
+        block control-sidebar
+      .control-sidebar-bg
+    // ./wrapper
+  

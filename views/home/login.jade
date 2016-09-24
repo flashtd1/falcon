@@ -1,0 +1,23 @@
+extends ../layouts/base.jade
+
+block content
+  body.hold-transition.login-page
+    .login-box
+      .login-logo
+        a(href='index.html')
+          b Falcon
+      // /.login-logo
+      .login-box-body
+        p.login-box-msg Sign in to start your session
+          .form-group.has-feedback
+            input.form-control(type='username', placeholder='Username')
+          .form-group.has-feedback
+            input.form-control(type='password', placeholder='Password')
+          .row
+            .col-xs-4.pull-right
+              button.btn.btn-primary.btn-block.btn-flat Sign In
+            // /.col
+        
+        br
+      // /.login-box-body
+    // /.login-box

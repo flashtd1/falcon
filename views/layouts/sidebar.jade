@@ -1,0 +1,26 @@
+section.sidebar
+  // search form (Optional)
+  form.sidebar-form(action='#', method='get')
+    .input-group
+      input.form-control(type='text', name='q', placeholder='Search...')
+      span.input-group-btn
+        button#search-btn.btn.btn-flat(type='submit', name='search')
+          i.fa.fa-search
+  // /.search form
+  // Sidebar Menu
+  ul.sidebar-menu
+    each item in menus
+      li.treeview
+          a(href="#{(item.href)? item.href : '#'}")
+            i.fa(class="#{item.icon}")
+            span= item.name
+            if (item.subs)
+              i.fa.fa-angle-left.pull-right
+
+          if (item.subs)
+            ul.treeview-menu
+              each sub in item.subs
+                li
+                  a(href="#{sub.href}") #{sub.name}
+  // /.sidebar-menu
+// /.sidebar
