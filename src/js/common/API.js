@@ -5,6 +5,7 @@ window.API = {
 		return {
 			type: method, 
 			url: url,
+			dataType: 'json',
 			data: data,
 			crossDomain: true,
 			headers: {

@@ -3,8 +3,11 @@
 let assets = {
   js:[
     'jQuery-2.2.0.min',
+    'js.cookie',
     'bootstrap.min',
-    'app.min'
+    'app.min',
+    'underscore-min',
+    'vue.min'
   ],
   css: [
     'bootstrap.min',

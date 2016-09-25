@@ -65,7 +65,7 @@ const tasks = {
 }
 
 const group = {
-  'js': ['webpack','vendor:js'],
+  'js': ['webpack'],
   'css': [],
   'view': []
 }

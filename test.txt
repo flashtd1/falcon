@@ -1,1 +1,1 @@
-{"controllers/home":["./src/js/controllers/home/index.js","./src/js/controllers/home/login.js"],"common":["./src/js/common/API.js","./src/js/common/Core.js","./src/js/common/Init.js"]}
+{"controllers/app":["./src/js/controllers/app/index.js"],"controllers/home":["./src/js/controllers/home/index.js","./src/js/controllers/home/login.js"],"common":["./src/js/common/API.js","./src/js/common/Core.js","./src/js/common/Init.js","./src/js/common/basic.js"]}

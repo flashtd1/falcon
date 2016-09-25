@@ -97,7 +97,7 @@ nav.navbar.navbar-static-top(role='navigation')
           // The user image in the navbar
           img.user-image(src='/FLogo.png', alt='User Image')
           // hidden-xs hides the username on small devices so only the image appears.
-          span.hidden-xs flashtd1
+          span.hidden-xs {{ session.username }}
         ul.dropdown-menu
           // The user image in the menu
           li.user-header
@@ -120,7 +120,7 @@ nav.navbar.navbar-static-top(role='navigation')
             .pull-left
               a.btn.btn-default.btn-flat(href='#') Profile
             .pull-right
-              a.btn.btn-default.btn-flat(href='/login') Sign out
+              a.btn.btn-default.btn-flat(@click='logout()') Sign out
       // Control Sidebar Toggle Button
       li
         a(href='#', data-toggle='control-sidebar')

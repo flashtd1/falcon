@@ -1,15 +1,21 @@
-
-class A {
+let model
+class Index extends Basic {
 
   constructor() {
-    console.log('hello a!')
-    this.foo()
+    super({
+    	vue:{
+    		data:{}
+    	}
+    })
+
+    model = this
+    this.init()
   }
 
-  foo() {
-   console.log('foo')
+  init() {
+    console.log('foo')
   }
 
 }
 
-Core.expose('home', 'index', A)
+Core.expose('home', 'index', Index)

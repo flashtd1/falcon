@@ -10,12 +10,12 @@ block content
       .login-box-body
         p.login-box-msg Sign in to start your session
           .form-group.has-feedback
-            input.form-control(type='username', placeholder='Username')
+            input.form-control(type='username', placeholder='Username', v-model='loginData.username')
           .form-group.has-feedback
-            input.form-control(type='password', placeholder='Password')
+            input.form-control(type='password', placeholder='Password', v-model='loginData.password')
           .row
             .col-xs-4.pull-right
-              button.btn.btn-primary.btn-block.btn-flat Sign In
+              button.btn.btn-primary.btn-block.btn-flat(@click='login()') Sign In
             // /.col
         
         br
