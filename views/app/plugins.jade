@@ -8,7 +8,7 @@ block right-content
           i.fa.fa-plus
           | &nbsp;新增
         .box-tools
-          .input-group.input-group-sm(style='width: 150px;')
+          .input-group.input-group(style='width: 300px;')
             input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
             .input-group-btn
               button.btn.btn-default(type='submit')
@@ -20,7 +20,8 @@ block right-content
             tr
               th #
               th 名称
-              th 类型
+              th 状态
+              th 端口号
               th 描述
               th 更新时间
               th 操作
@@ -29,6 +30,7 @@ block right-content
               td John Doe
               td
                 span.label.label-success Approved
+              td 3000
               td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
               td 11-7-2014
               td 
@@ -39,6 +41,7 @@ block right-content
               td Alexander Pierce
               td
                 span.label.label-warning Pending
+              td 3000
               td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
               td 11-7-2014
               td 
@@ -50,6 +53,7 @@ block right-content
               td Bob Doe
               td
                 span.label.label-primary Approved
+              td 3000
               td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
               td 11-7-2014
               td 
@@ -60,6 +64,7 @@ block right-content
               td Mike Doe
               td
                 span.label.label-danger Denied
+              td 3000
               td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
               td 11-7-2014
               td 

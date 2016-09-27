@@ -10,8 +10,16 @@ section.sidebar
   // Sidebar Menu
   ul.sidebar-menu
     each item in menus
-      li.treeview
-          a(href="#{(item.href)? item.href : '#'}")
+      - var active = {};
+      if (item.subs) 
+        - active = item.subs.filter((i) => { return i.href.indexOf(route.controller) > -1})[0]
+        if (!active) 
+          - active = {href:''}
+      else
+        - active.href= item.href
+
+      li.treeview(class="#{(active.href || []).indexOf(route.controller) > -1? 'active': ''}")
+          a(href="#{(item.href)? item.href : ''}")
             i.fa(class="#{item.icon}")
             span= item.name
             if (item.subs)
@@ -20,7 +28,9 @@ section.sidebar
           if (item.subs)
             ul.treeview-menu
               each sub in item.subs
-                li
-                  a(href="#{sub.href}") #{sub.name}
+                li(class="#{ (('/' + route.controller + '/' + route.action) == sub.href)? 'active' : ''}")
+                  a(href="#{sub.href}")
+                    i.fa.fa-circle-o
+                    span= sub.name
   // /.sidebar-menu
 // /.sidebar
