@@ -12,10 +12,18 @@ class Wechat extends Basic {
           currentCommand:{
             id:0,
             name:'',
-            type:'text',
+            type:'normal',
             description:'',
             return_type:'text',
-            content:''
+            source_data: 'static',
+            api_url:'',
+            content:'',
+            news:{
+              title:'',
+              desc:'',
+              picurl:'',
+              url:''
+            }
           }
         }
     	}
@@ -53,15 +61,26 @@ class Wechat extends Basic {
   }
 
   addCommand() {
-    API.post('classes/name/command', model.mvvm.currentCommand, (data) => {
+
+    let tempCommand = model.mvvm.currentCommand
+    if(tempCommand.return_type == 'news')
+      tempCommand.content = JSON.stringify(tempCommand.news)
+
+    API.post('classes/name/command', tempCommand, (data) => {
       model.getCommands()
     }, (err) => {
 
     })
   }
 
+
   setCommand() {
-    API.put('classes/name/command/id/' + model.mvvm.currentCommand.id, model.mvvm.currentCommand, (data) => {
+
+    let tempCommand = model.mvvm.currentCommand
+    if(tempCommand.return_type == 'news')
+      tempCommand.content = JSON.stringify(tempCommand.news)
+
+    API.put('classes/name/command/id/' + tempCommand.id, tempCommand, (data) => {
       model.getCommands()
     }, (err) => {
 
@@ -71,6 +90,8 @@ class Wechat extends Basic {
   editCommand(command) {
     if(command) {
       model.mvvm.currentCommandType = 'edit'
+      if(command.return_type == 'news')
+        command.news = JSON.parse(command.content)
       model.mvvm.$set('currentCommand', command)
     } else {
       model.mvvm.currentCommandType = 'add'

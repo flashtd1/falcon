@@ -32,7 +32,7 @@ class Basic {
   }
 
   initBasic() {
-    this.register(['logout','stringify'])
+    this.register(['logout','stringify', 'getLocalDate'])
   }
 
   register(methods){
@@ -43,6 +43,10 @@ class Basic {
 
   stringify(data) {
     return JSON.stringify(data)
+  }
+
+  getLocalDate(timestamp) {
+    return new Date(parseInt(timestamp) * 1000).toLocaleString().substr(0,17)
   }
 
   logout() {

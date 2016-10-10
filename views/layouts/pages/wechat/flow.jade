@@ -1,0 +1,35 @@
+.box
+  .box-header
+    button.btn.btn-success(data-toggle="modal" data-target="#myModal" @click='editFlow()') 新增
+    .box-tools
+      .input-group.input-group(style='width: 300px;')
+        input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+        .input-group-btn
+          button.btn.btn-default(type='submit')
+            i.fa.fa-search
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th 名称
+          th 类型
+          th 描述
+          th 更新时间
+          th 操作
+      tbody
+        tr(v-for="flow in flows")
+          td {{ $index + 1}}
+          td {{ flow.name }}
+          td
+            span.label.label-success {{ flow.type }}
+          td {{ flow.description }}
+          td {{ flow.updatedAt }}
+          td 
+            a(data-toggle="modal" data-target="#myModal" @click='editFlow(command)')
+              i.fa.fa-edit
+            a(@click='deleteFlow(flow)')
+              i.fa.fa-trash
+  // /.box-body
+// /.box

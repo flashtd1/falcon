@@ -1,0 +1,98 @@
+.box
+  .box-header
+    button.btn.btn-success(data-toggle="modal" data-target="#commandModal" @click='editCommand()') 新增
+    .box-tools
+      .input-group.input-group(style='width: 300px;')
+        input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+        .input-group-btn
+          button.btn.btn-default(type='submit')
+            i.fa.fa-search
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th 名称
+          th 归属类型
+          th 返回类型
+          th 数据来源
+          th 描述
+          th 更新时间
+          th 操作
+      tbody
+        tr(v-for="command in commands")
+          td {{ $index + 1}}
+          td {{ command.name }}
+          td
+            span.label.label-success {{ command.type }}
+          td
+            span.label.label-success {{ command.return_type }}
+          td
+            span.label.label-success {{ command.source_data }}
+          td {{ command.description }}
+          td {{ getLocalDate(command.updatedAt) }}
+          td 
+            a(data-toggle="modal" data-target="#commandModal" @click='editCommand(command)')
+              i.fa.fa-edit
+            a(@click='deleteCommand(command)')
+              i.fa.fa-trash
+  // /.box-body
+// /.box
+
+
+#commandModal.modal.modal-primary
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+        h4.modal-title 新增命令
+      .modal-body
+        div.form-horizontal
+          .form-group
+            label.col-sm-2.control-label 名称
+            .col-sm-6
+              input.form-control(v-model='currentCommand.name')
+          .form-group
+            label.col-sm-2.control-label 类别
+            .col-sm-6
+              select.form-control(v-model='currentCommand.type')
+                option(value='admin') 管理员
+                option(value='normal') 通用
+                option(value='personal') 个人专属
+          .form-group
+            label.col-sm-2.control-label 返回类型
+            .col-sm-6
+              select.form-control(v-model='currentCommand.return_type')
+                option(value='news') 图文
+                option(value='text') 文本
+          .form-group
+            label.col-sm-2.control-label 返回来源
+            .col-sm-6
+              select.form-control(v-model='currentCommand.source_data')
+                option(value='api') 接口
+                option(value='static') 静态
+          .form-group(v-if='currentCommand.source_data == "api"')
+            label.col-sm-2.control-label 接口路径
+            .col-sm-6
+              input.form-control(v-model='currentCommand.api_url')
+          .form-group(v-if='currentCommand.source_data == "static"')
+            label.col-sm-2.control-label 返回内容
+            .col-sm-6(v-if='currentCommand.return_type == "text"')
+              input.form-control(v-model='currentCommand.content')
+            .col-sm-6(v-if='currentCommand.return_type == "news"')
+              input.form-control(v-model='currentCommand.news.title', placeholder='标题')
+              input.form-control(v-model='currentCommand.news.desc', placeholder='描述')
+              input.form-control(v-model='currentCommand.news.picurl', placeholder='封面')
+              input.form-control(v-model='currentCommand.news.url', placeholder='跳转连接')
+          .form-group
+            label.col-sm-2.control-label 描述
+            .col-sm-6
+              textarea.form-control(v-model='currentCommand.description')
+      .modal-footer
+        button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+        button.btn.btn-outline(type='button' @click='(currentCommandType == "add") ? addCommand() : setCommand()') 保存
+    // /.modal-content
+  // /.modal-dialog
+// /.modal

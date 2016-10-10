@@ -1,0 +1,16 @@
+div.form-horizontal
+  .form-group
+    label.col-sm-2.control-label(for='inputName') 管理员OpenID
+    .col-sm-6
+      input#inputName.form-control(type='text', placeholder='Name', v-model='config.admin_id')
+  .form-group
+    label.col-sm-2.control-label(for='inputEmail') Email
+    .col-sm-6
+      input#inputEmail.form-control(type='email', placeholder='Email')
+  .form-group
+    label.col-sm-2.control-label(for='inputExperience') 欢迎语
+    .col-sm-6
+      textarea#inputExperience.form-control(placeholder='Experience' v-model='config.welcome')
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      button.btn.btn-success(@click='setConfig()') 修改

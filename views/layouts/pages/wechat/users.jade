@@ -1,0 +1,67 @@
+.box
+  //- .box-header
+    //- .box-tools
+      //- .input-group.input-group(style='width: 300px;')
+        input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+        .input-group-btn
+          button.btn.btn-default(type='submit')
+            i.fa.fa-search
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      tbody
+        tr
+          th #
+          th 名称
+          th 状态
+          th 端口号
+          th 描述
+          th 更新时间
+          th 操作
+        tr
+          td 1
+          td John Doe
+          td
+            span.label.label-success Approved
+          td 3000
+          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
+          td 11-7-2014
+          td 
+            i.fa.fa-edit
+            i.fa.fa-trash
+        tr
+          td 2
+          td Alexander Pierce
+          td
+            span.label.label-warning Pending
+          td 3000
+          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
+          td 11-7-2014
+          td 
+            i.fa.fa-edit
+            i.fa.fa-trash
+
+        tr
+          td 3
+          td Bob Doe
+          td
+            span.label.label-primary Approved
+          td 3000
+          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
+          td 11-7-2014
+          td 
+            i.fa.fa-edit
+            i.fa.fa-trash
+        tr
+          td 4
+          td Mike Doe
+          td
+            span.label.label-danger Denied
+          td 3000
+          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
+          td 11-7-2014
+          td 
+            i.fa.fa-edit
+            i.fa.fa-trash
+  // /.box-body
+// /.box
