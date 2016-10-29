@@ -9,59 +9,25 @@
   // /.box-header
   .box-body.table-responsive.no-padding
     table.table.table-hover
-      tbody
+      thead
         tr
           th #
-          th 名称
-          th 状态
-          th 端口号
-          th 描述
+          th 头像
+          th 昵称
+          th OpenID
           th 更新时间
           th 操作
-        tr
-          td 1
-          td John Doe
-          td
-            span.label.label-success Approved
-          td 3000
-          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-          td 11-7-2014
+      tbody
+        tr(v-for="user in users")
+          td {{ $index + 1}}
+          td 
+            img(src="{{ user.profile_url }}" width='50' height='50')
+          td {{ user.nick_name }}
+          td {{ user.open_id }}
+          td {{ getLocalDate(user.updatedAt) }}
           td 
             i.fa.fa-edit
             i.fa.fa-trash
-        tr
-          td 2
-          td Alexander Pierce
-          td
-            span.label.label-warning Pending
-          td 3000
-          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-          td 11-7-2014
-          td 
-            i.fa.fa-edit
-            i.fa.fa-trash
-
-        tr
-          td 3
-          td Bob Doe
-          td
-            span.label.label-primary Approved
-          td 3000
-          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-          td 11-7-2014
-          td 
-            i.fa.fa-edit
-            i.fa.fa-trash
-        tr
-          td 4
-          td Mike Doe
-          td
-            span.label.label-danger Denied
-          td 3000
-          td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-          td 11-7-2014
-          td 
-            i.fa.fa-edit
-            i.fa.fa-trash
+        
   // /.box-body
 // /.box
