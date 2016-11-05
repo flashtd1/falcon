@@ -35,10 +35,12 @@ class Wechat extends Basic {
 
   init() {
     this.register([ 'setConfig' ,'getConfig',
+      'getUsers',
       'addCommand', 'setCommand', 'editCommand', 'getCommands', 'deleteCommand',
     ])
     this.getCommands()
     this.getConfig()
+    this.getUsers()
   }
 
   getConfig() {
@@ -52,9 +54,19 @@ class Wechat extends Basic {
   setConfig() {
 
     API.put('classes/name/config/id/1', {
+      admin_id:model.mvvm.config.admin_id,
+      email:model.mvvm.config.email,
       welcome:model.mvvm.config.welcome
     }, (data) => {
       Core.alert('success', '修改配置成功')
+    }, (err) => {
+
+    })
+  }
+
+  getUsers() {
+    API.get('classes/name/user', {}, (data) => {
+      model.mvvm.$set('users', data.item)
     }, (err) => {
 
     })
