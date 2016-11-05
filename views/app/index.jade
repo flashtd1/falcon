@@ -4,7 +4,7 @@ block right-content
   .col-xs-12
     .box
       .box-header
-        button.btn.btn-success
+        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editApp()')
           i.fa.fa-plus
           | &nbsp;新增
         .box-tools
@@ -16,7 +16,7 @@ block right-content
       // /.box-header
       .box-body.table-responsive.no-padding
         table.table.table-hover
-          tbody
+          thead
             tr
               th #
               th 名称
@@ -24,46 +24,57 @@ block right-content
               th 描述
               th 更新时间
               th 操作
-            tr
-              td 1
-              td John Doe
+          tbody
+            tr(v-for="app in apps")
+              td {{ $index + 1}}
+              td {{ app.name }}
               td
-                span.label.label-success Approved
-              td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-              td 11-7-2014
+                span.label.label-info 类型
+              td {{ app.desc }}
+              td {{ getLocalDate(app.updatedAt) }}
               td 
-                i.fa.fa-edit
-                i.fa.fa-trash
-            tr
-              td 2
-              td Alexander Pierce
-              td
-                span.label.label-warning Pending
-              td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-              td 11-7-2014
-              td 
-                i.fa.fa-edit
-                i.fa.fa-trash
-
-            tr
-              td 3
-              td Bob Doe
-              td
-                span.label.label-primary Approved
-              td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-              td 11-7-2014
-              td 
-                i.fa.fa-edit
-                i.fa.fa-trash
-            tr
-              td 4
-              td Mike Doe
-              td
-                span.label.label-danger Denied
-              td Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.
-              td 11-7-2014
-              td 
-                i.fa.fa-edit
-                i.fa.fa-trash
+                a(data-toggle="modal" data-target="#appModal" @click='editApp(app)')
+                  i.fa.fa-edit
+                a(@click='deleteApp(app)')
+                  i.fa.fa-trash
       // /.box-body
     // /.box
+
+    #appModal.modal.modal-primary
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title 新增App
+          .modal-body
+            div.form-horizontal
+              .form-group
+                label.col-sm-2.control-label 名称
+                .col-sm-6
+                  input.form-control(v-model='currentApp.name')
+              .form-group
+                label.col-sm-2.control-label AppID
+                .col-sm-6
+                  input.form-control(v-model='currentApp.app_id')
+              .form-group
+                label.col-sm-2.control-label AppKey
+                .col-sm-6
+                  input.form-control(v-model='currentApp.app_key')
+              .form-group
+                label.col-sm-2.control-label 类别
+                .col-sm-6
+                  select.form-control(v-model='currentApp.type_poi_app_types)')
+                    option(value='admin') 管理员
+                    option(value='normal') 通用
+                    option(value='personal') 个人专属
+              .form-group
+                label.col-sm-2.control-label 描述
+                .col-sm-6
+                  textarea.form-control(v-model='currentApp.desc')
+          .modal-footer
+            button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+            button.btn.btn-outline(type='button' @click='(currentAppType == "add") ? addApp() : setApp()') 保存
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal
