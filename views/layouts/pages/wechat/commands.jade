@@ -76,7 +76,7 @@
           .form-group(v-if='currentCommand.source_data == "api"')
             label.col-sm-2.control-label 接口路径
             .col-sm-6
-              input.form-control(v-model='currentCommand.api_url')
+              input.form-control(v-model='currentCommand.content')
           .form-group(v-if='currentCommand.source_data == "static"')
             label.col-sm-2.control-label 返回内容
             .col-sm-6(v-if='currentCommand.return_type == "text"')
