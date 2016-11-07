@@ -11,6 +11,8 @@ block right-content
         li
           a(href="#flow", data-toggle="tab", aria-expanded="true") 流程管理
         li
+          a(href="#logs", data-toggle="tab", aria-expanded="true") 日志管理
+        li
           a(href="#setting", data-toggle="tab", aria-expanded="true") 配置
 
       .tab-content
@@ -20,6 +22,8 @@ block right-content
           include ../layouts/pages/wechat/commands.jade
         div#flow.tab-pane
           include ../layouts/pages/wechat/flow.jade
+        div#logs.tab-pane
+          include ../layouts/pages/wechat/logs.jade
         div#setting.tab-pane
           include ../layouts/pages/wechat/setting.jade
           

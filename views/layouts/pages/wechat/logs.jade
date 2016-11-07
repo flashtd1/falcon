@@ -1,0 +1,55 @@
+.box
+  .box-header
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th 请求人open_id
+          th 请求数据
+          th 返回数据
+          th 请求时间
+          th 操作
+      tbody
+        tr(v-for="log in logs")
+          td {{ $index + 1}}
+          td {{ log.open_id }}
+          td {{ log.postObj.substring(0,20) }} ...
+          td {{ log.returnObj.substring(0,20) }} ...
+          td {{ getLocalDate(log.createdAt) }}
+          td 
+            a(data-toggle="modal" data-target="#logModal" @click='showLog(log)')
+              i.fa.fa-book
+  // /.box-body
+// /.box
+
+#logModal.modal.modal-primary
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+        h4.modal-title 查看日志
+      .modal-body
+        div.form-horizontal
+          .form-group
+            label.col-sm-2.control-label open_id
+            .col-sm-6
+              label.form-control
+                {{ currentLog.open_id }}
+          .form-group
+            label.col-sm-2.control-label 请求数据
+            .col-sm-9
+              pre.well.well-sm.no-shadow
+                {{ currentLog.postObj }}
+          .form-group
+            label.col-sm-2.control-label 返回数据
+            .col-sm-9
+              pre.well.well-sm.no-shadow
+                {{ currentLog.returnObj }}
+      .modal-footer
+        button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+    // /.modal-content
+  // /.modal-dialog
+// /.modal

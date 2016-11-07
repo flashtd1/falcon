@@ -7,6 +7,8 @@ class Wechat extends Basic {
     		data:{
           config:{},
           users:[],
+          logs:[],
+          currentLog:{},
           commands:[],
           currentCommandType: 'add',
           currentCommand:{
@@ -35,12 +37,13 @@ class Wechat extends Basic {
 
   init() {
     this.register([ 'setConfig' ,'getConfig',
-      'getUsers',
+      'getUsers', 'getLogs', 'showLog',
       'addCommand', 'setCommand', 'editCommand', 'getCommands', 'deleteCommand',
     ])
     this.getCommands()
     this.getConfig()
     this.getUsers()
+    this.getLogs()
   }
 
   getConfig() {
@@ -70,6 +73,21 @@ class Wechat extends Basic {
     }, (err) => {
 
     })
+  }
+
+  getLogs() {
+    API.get('classes/name/wx_logs', {}, (data) => {
+      model.mvvm.$set('logs', data.item)
+    }, (err) => {
+      
+    })
+  }
+
+  showLog(log) {
+    log.postObj = JSON.stringify(JSON.parse(log.postObj), null, 2)
+    log.returnObj = JSON.stringify(JSON.parse(log.returnObj), null, 2)
+
+    model.mvvm.currentLog = log
   }
 
   addCommand() {
