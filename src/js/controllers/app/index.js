@@ -6,13 +6,14 @@ class Index extends Basic {
       vue:{
         data:{
           apps: [],
+          app_types: [],
           currentAppType: 'add',
           currentApp:{
             id:0,
             app_id:'',
             app_key:'',
             name:'',
-            type_poi_app_types:'normal',
+            type_poi_app_types:1,
             desc:'',
           }
         }
@@ -24,8 +25,33 @@ class Index extends Basic {
   }
 
   init() {
-    this.register(['getAppList', 'addApp', 'editApp', 'setApp', 'deleteApp'])
+    this.register(['transTypeName','getAppList', 'getAppType', 'addApp', 'editApp', 'setApp', 'deleteApp'])
     this.getAppList()
+    this.getAppType()
+  }
+
+  transTypeName(id) {
+    if(model.mvvm.app_types) {
+      let result = model.mvvm.app_types.filter((item) => {
+        return item.id == id
+      })[0]
+
+      if(result) {
+        return result.name
+      } else {
+        return id
+      }
+    } else {
+      return id
+    }
+  }
+
+  getAppType() {
+    API.get('classes/name/app_types', {}, (data) => {
+      model.mvvm.$set('app_types', data.item)
+    }, (err) => {
+
+    })
   }
 
   getAppList() {

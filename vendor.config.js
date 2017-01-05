@@ -7,7 +7,8 @@ let assets = {
     'bootstrap.min',
     'app.min',
     'underscore-min',
-    'vue.min'
+    'vue.min',
+    'av-min'
   ],
   css: [
     'bootstrap.min',

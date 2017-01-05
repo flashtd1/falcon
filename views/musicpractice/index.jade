@@ -4,7 +4,7 @@ block right-content
   .col-xs-12
     .box
       .box-header
-        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editApp()')
+        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editMusic()')
           i.fa.fa-plus
           | &nbsp;新增
         .box-tools
@@ -19,23 +19,29 @@ block right-content
           thead
             tr
               th #
+              th 封面
               th 名称
-              th 类型
+              th 进度
               th 描述
               th 更新时间
               th 操作
           tbody
-            tr(v-for="app in apps")
+            tr(v-for="music in list")
               td {{ $index + 1}}
-              td {{ app.name }}
-              td
-                span.label.label-info {{ transTypeName(app.type_poi_app_types) }}
-              td {{ app.desc }}
-              td {{ getLocalDate(app.updatedAt) }}
               td 
-                a(data-toggle="modal" data-target="#appModal" @click='editApp(app)')
+                div.cover(v-show="!music.cover" style="background-color:gray;width:50px;height:50px;")
+                  i.fa.fa-music.list-icon
+                img.cover(v-show='music.cover' v-bind:src='music.cover + "?imageMogr2/thumbnail/!100x100r/gravity/center/crop/50x50"', alt='')
+              td {{ music.title }}
+              td
+                span.label.label-info {{ music.progress.name }}
+              td {{ music.desc }}
+              td {{ music.updatedAt }}
+              td
+
+                a(data-toggle="modal" data-target="#appModal" @click='editMusic(music)')
                   i.fa.fa-edit
-                a(@click='deleteApp(app)')
+                a(@click='deleteMusic(music)')
                   i.fa.fa-trash
       // /.box-body
     // /.box
@@ -46,33 +52,38 @@ block right-content
           .modal-header
             button.close(type='button', data-dismiss='modal', aria-label='Close')
               span(aria-hidden='true') ×
-            h4.modal-title 新增App
+            h4.modal-title 新增Music
           .modal-body
             div.form-horizontal
               .form-group
                 label.col-sm-2.control-label 名称
                 .col-sm-6
-                  input.form-control(v-model='currentApp.name')
+                  input.form-control(v-model='currentMusic.title')
               .form-group
-                label.col-sm-2.control-label AppID
+                label.col-sm-2.control-label 封面
                 .col-sm-6
-                  input.form-control(v-model='currentApp.app_id')
+                  input.form-control(v-model='currentMusic.cover')
               .form-group
-                label.col-sm-2.control-label AppKey
+                label.col-sm-2.control-label 网易云音乐id
                 .col-sm-6
-                  input.form-control(v-model='currentApp.app_key')
+                  input.form-control(v-model='currentMusic.wyMusicId')
               .form-group
-                label.col-sm-2.control-label 类别
+                label.col-sm-2.control-label 进度
                 .col-sm-6
-                  select.form-control(v-model='currentApp.type_poi_app_types' )
+                  select.form-control(v-model='currentMusic.progress.id')
+                    option(value='{{progress.id}}' v-for='progress in progresses') {{ progress.name }}
+              .form-group
+                label.col-sm-2.control-label 风格
+                .col-sm-6
+                  select.form-control(v-model='currentMusic.type_poi_app_types' )
                     option(value='{{type.id}}' v-for='type in app_types') {{ type.name }}
               .form-group
                 label.col-sm-2.control-label 描述
                 .col-sm-6
-                  textarea.form-control(v-model='currentApp.desc')
+                  textarea.form-control(v-model='currentMusic.desc')
           .modal-footer
             button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
-            button.btn.btn-outline(type='button' @click='(currentAppType == "add") ? addApp() : setApp()') 保存
+            button.btn.btn-outline(type='button' @click='(currentMusicType == "add") ? addMusic() : setMusic()') 保存
         // /.modal-content
       // /.modal-dialog
     // /.modal
