@@ -31,14 +31,15 @@ block right-content
               td 
                 div.cover(v-show="!music.cover" style="background-color:gray;width:50px;height:50px;")
                   i.fa.fa-music.list-icon
-                img.cover(v-show='music.cover' v-bind:src='music.cover + "?imageMogr2/thumbnail/!100x100r/gravity/center/crop/50x50"', alt='')
+                img.cover(v-show='music.cover' v-bind:src='music.cover + "?imageMogr2/thumbnail/!50x50r/gravity/center/crop/50x50"', alt='')
               td {{ music.title }}
               td
                 span.label.label-info {{ music.progress.name }}
               td {{ music.desc }}
               td {{ music.updatedAt }}
               td
-
+                a(href='/musicpractice/history?id={{ music.id }}')
+                  i.fa.fa-history
                 a(data-toggle="modal" data-target="#appModal" @click='editMusic(music)')
                   i.fa.fa-edit
                 a(@click='deleteMusic(music)')
@@ -60,6 +61,7 @@ block right-content
                 .col-sm-6
                   input.form-control(v-model='currentMusic.title')
               .form-group
+                img(:src='currentMusic.cover' style='width:100px;height:100px;')
                 label.col-sm-2.control-label 封面
                 .col-sm-6
                   input.form-control(v-model='currentMusic.cover')

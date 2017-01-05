@@ -1,0 +1,139 @@
+extends ../layouts/console.jade
+
+block right-content
+  .col-xs-12
+    ul.timeline
+      // timeline time label
+      li.time-label
+        span.bg-red
+          | 10 Feb. 2014
+      // /.timeline-label
+      // timeline item
+      li
+        i.fa.fa-envelope.bg-blue
+        .timeline-item
+          span.time
+            i.fa.fa-clock-o
+            |  12:05
+          h3.timeline-header
+            a(href='#') Support Team
+            |  sent you an email
+          .timeline-body
+            | Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+            | weebly ning heekya handango imeem plugg dopplr jibjab, movity
+            | jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+            | quora plaxo ideeli hulu weebly balihoo...
+          .timeline-footer
+            a.btn.btn-primary.btn-xs Read more
+            a.btn.btn-danger.btn-xs Delete
+      // END timeline item
+      // timeline item
+      li
+        i.fa.fa-user.bg-aqua
+        .timeline-item
+          span.time
+            i.fa.fa-clock-o
+            |  5 mins ago
+          h3.timeline-header.no-border
+            a(href='#') Sarah Young
+            |  accepted your friend request
+      // END timeline item
+      // timeline item
+      li
+        i.fa.fa-comments.bg-yellow
+        .timeline-item
+          span.time
+            i.fa.fa-clock-o
+            |  27 mins ago
+          h3.timeline-header
+            a(href='#') Jay White
+            |  commented on your post
+          .timeline-body
+            | Take me to your leader!
+            | Switzerland is small and neutral!
+            | We are more like Germany, ambitious and misunderstood!
+          .timeline-footer
+            a.btn.btn-warning.btn-flat.btn-xs View comment
+      // END timeline item
+      // timeline time label
+      li.time-label
+        span.bg-green
+          | 3 Jan. 2014
+      // /.timeline-label
+      // timeline item
+      li
+        i.fa.fa-camera.bg-purple
+        .timeline-item
+          span.time
+            i.fa.fa-clock-o
+            |  2 days ago
+          h3.timeline-header
+            a(href='#') Mina Lee
+            |  uploaded new photos
+          .timeline-body
+            img.margin(src='http://placehold.it/150x100', alt='...')
+            img.margin(src='http://placehold.it/150x100', alt='...')
+            img.margin(src='http://placehold.it/150x100', alt='...')
+            img.margin(src='http://placehold.it/150x100', alt='...')
+      // END timeline item
+      // timeline item
+      li
+        i.fa.fa-video-camera.bg-maroon
+        .timeline-item
+          span.time
+            i.fa.fa-clock-o
+            |  5 days ago
+          h3.timeline-header
+            a(href='#') Mr. Doe
+            |  shared a video
+          .timeline-body
+            .embed-responsive.embed-responsive-16by9
+              iframe.embed-responsive-item(src='https://www.youtube.com/embed/tMWkeBIohBs', frameborder='0', allowfullscreen='')
+          .timeline-footer
+            a.btn.btn-xs.bg-maroon(href='#') See comments
+      // END timeline item
+      li
+        i.fa.fa-clock-o.bg-gray
+
+    #appModal.modal.modal-primary
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title 新增Music
+          .modal-body
+            div.form-horizontal
+              .form-group
+                label.col-sm-2.control-label 名称
+                .col-sm-6
+                  input.form-control(v-model='currentMusic.title')
+              .form-group
+                img(:src='currentMusic.cover' style='width:100px;height:100px;')
+                label.col-sm-2.control-label 封面
+                .col-sm-6
+                  input.form-control(v-model='currentMusic.cover')
+              .form-group
+                label.col-sm-2.control-label 网易云音乐id
+                .col-sm-6
+                  input.form-control(v-model='currentMusic.wyMusicId')
+              .form-group
+                label.col-sm-2.control-label 进度
+                .col-sm-6
+                  select.form-control(v-model='currentMusic.progress.id')
+                    option(value='{{progress.id}}' v-for='progress in progresses') {{ progress.name }}
+              .form-group
+                label.col-sm-2.control-label 风格
+                .col-sm-6
+                  select.form-control(v-model='currentMusic.type_poi_app_types' )
+                    option(value='{{type.id}}' v-for='type in app_types') {{ type.name }}
+              .form-group
+                label.col-sm-2.control-label 描述
+                .col-sm-6
+                  textarea.form-control(v-model='currentMusic.desc')
+          .modal-footer
+            button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+            button.btn.btn-outline(type='button' @click='(currentMusicType == "add") ? addMusic() : setMusic()') 保存
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal

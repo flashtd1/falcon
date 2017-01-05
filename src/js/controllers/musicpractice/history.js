@@ -2,7 +2,7 @@ import Leancloud from '../../modules/Leancloud'
 import ParseTool from '../../modules/ParseTool'
 
 let model
-class Index extends Basic {
+class History extends Basic {
   constructor() {
     super({
       vue:{
@@ -139,4 +139,4 @@ class Index extends Basic {
   }
 }
 
-Core.expose('musicpractice', 'index', Index)
+Core.expose('musicpractice', 'history', History)

@@ -76,7 +76,7 @@ class Wechat extends Basic {
   }
 
   getLogs() {
-    API.get('classes/name/wx_logs', {}, (data) => {
+    API.get('classes/name/wx_logs', {'order':'-id'}, (data) => {
       model.mvvm.$set('logs', data.item)
     }, (err) => {
       

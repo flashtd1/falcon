@@ -1,8 +1,5 @@
 
 
-
-
-
 /*
   将json对象转为Leancloud的对象
  */
@@ -11,9 +8,28 @@ const Parse2AV = function(className, obj) {
   let AVObj = new Class()
   for(let key in obj) {
     if(typeof obj[key] == 'object') {
-      AVObj.set(key, Parse2AV(obj[key].className, obj[key]))
+      try {
+        // 处理pointer的方式，只用id恢复结构，不读取具体的内容，避免递归更新
+        if(obj[key].className) {
+          AVObj.set(key, AV.Object.createWithoutData(obj[key].className, obj[key].id))
+          continue
+        }
+        // relation 暂时不处理
+        if(obj[key].targetClassName) {
+          continue
+        }
+      } catch(err) {
+        console.log(err)
+        console.warn(key,obj)
+      }
+      
     } else {
-      AVObj.set(key, obj[key])
+      try {
+        AVObj.set(key, obj[key])
+      } catch(err) {
+        console.log(err)
+        console.warn(obj[key])
+      }
     }
   }
   return AVObj
