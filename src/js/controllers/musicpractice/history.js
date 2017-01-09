@@ -7,13 +7,13 @@ class History extends Basic {
     super({
       vue:{
         data:{
-          list: [],
+          musicId: 0,
+          historys: [],
           progresses: [],
-          currentMusicType: 'add',
-          currentMusic:{
-            id:0,
-            title:'',
-            desc:'',
+          currentHistoryType: 'add',
+          currentHistory:{
+            name:'',
+            content:'',
           }
         }
       }
@@ -25,10 +25,11 @@ class History extends Basic {
 
   init() {
     Leancloud.init('CSbxMOaofoB1uHOl4rtRrLLP-gzGzoHsz', 'qI1yQeznIr9NKt0Xm76k6TWM', 'bUG9rgQP9TKTkvaJoua8BoVl')
-    this.register(['transTypeName', 'getPracticeProgress','getMusicList', 'addMusic', 'editMusic', 'setMusic', 'deleteMusic'])
-    
+    this.register(['transTypeName', 'getPracticeProgress','getHistoryList', 'addHistory', 'editHistory', 'setMusic', 'deleteHistory'])
+    let musicId = ParseTool.getQueryString('id')
+    model.mvvm.musicId = musicId
     this.getPracticeProgress().then(() => {
-      this.getMusicList()
+      this.getHistoryList()
     })
 
   }
@@ -61,36 +62,44 @@ class History extends Basic {
           resolve()
       })
     })
-    
   }
 
-  getMusicList() {
-    let listQuery = new AV.Query('MusicList')
+  getHistoryList() {
+    let music = AV.Object.createWithoutData('MusicList', model.mvvm.musicId);
+    let listQuery = new AV.Query('MusicHistory')
+    listQuery.equalTo('music', music)
     listQuery.include('progress').descending('objectId')
     listQuery.find().then(function(result) {
-        model.mvvm.list = []
+        model.mvvm.historys = []
         result.map(function(item){
             let obj = ParseTool.Parse2Obj(item)
-            model.mvvm.list.push(obj)
+            model.mvvm.historys.push(obj)
         })
     })
   }
 
-  addMusic() {
-    let tempMusic = model.mvvm.currentMusic
-    tempMusic.progress.className = 'Progress'
+  addHistory() {
+    let tempHistory = model.mvvm.currentHistory
+    tempHistory.progress.className = 'Progress'
+    tempHistory.music = {
+      id: model.mvvm.musicId,
+      className: 'MusicList'
+    }
 
     // 新建一个 ACL 实例
     let acl = new AV.ACL();
     acl.setPublicReadAccess(true);
     acl.setPublicWriteAccess(true);
     // 新建对象
-    let music = ParseTool.Parse2AV('MusicList', tempMusic)
+    let music = ParseTool.Parse2AV('MusicHistory', tempHistory)
 
     music.setACL(acl)
     music.save().then(function (todo) {
-      Core.alert('success', '添加音乐成功')
-      model.init()
+      Core.alert('success', '添加历史记录成功')
+      model.setMusic().then(() => {
+        model.getHistoryList()
+      })
+      
     }, function (error) {
       console.error(error)
       Core.alert('danger', error.toString())
@@ -98,38 +107,39 @@ class History extends Basic {
   }
 
   setMusic() {
-    let tempMusic = model.mvvm.currentMusic
-    tempMusic.progress.className = 'Progress'
-
-    let music = ParseTool.Parse2AV('MusicList', tempMusic)
-    music.save().then(function(todo) {
-      Core.alert('success', '修改音乐成功')
-      model.init()
-    }, function(error) {
-      console.error(error)
-      Core.alert('danger', error.toString())
+    return new Promise(resolve => {
+      let music = AV.Object.createWithoutData('MusicList', model.mvvm.musicId);
+      let progress = AV.Object.createWithoutData('Progress', model.mvvm.currentHistory.progress.id);
+      
+      music.set('progress', progress)
+      music.save().then(function(todo) {
+        resolve()
+      }, function(error) {
+        console.error(error)
+        resolve()
+      })
     })
     
   }
 
-  editMusic(music) {
-    if(music) {
+  editHistory(history) {
+    if(history) {
       model.mvvm.currentMusicType = 'edit'
-      console.log(music)
-      model.mvvm.$set('currentMusic', music)
+      console.log(history)
+      model.mvvm.$set('currentHistory', history)
     } else {
       model.mvvm.currentMusicType = 'add'
-      model.mvvm.$set('currentMusic', {})
+      model.mvvm.$set('currentHistory', {})
     }
   }
 
-  deleteMusic(music) {
-    if(confirm('是否确定要删除 ' + music.title + ' 这首练习条目')) {
-      let todo = AV.Object.createWithoutData('MusicList', music.id);
+  deleteHistory(history) {
+    if(confirm('是否确定要删除 ' + history.id + ' 这条历史记录')) {
+      let todo = AV.Object.createWithoutData('MusicHistory', history.id);
       todo.destroy().then(function (success) {
         // 删除成功
         Core.alert('success', '删除成功')
-        model.getMusicList()
+        model.getHistoryList()
       }, function (error) {
         Core.alert('danger', error)
       });
