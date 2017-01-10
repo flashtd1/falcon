@@ -10,10 +10,12 @@ class History extends Basic {
           musicId: 0,
           historys: [],
           progresses: [],
+          historyFile:$('#leanUpload'),
           currentHistoryType: 'add',
           currentHistory:{
             name:'',
             content:'',
+            file:{}
           }
         }
       }
@@ -25,13 +27,13 @@ class History extends Basic {
 
   init() {
     Leancloud.init('CSbxMOaofoB1uHOl4rtRrLLP-gzGzoHsz', 'qI1yQeznIr9NKt0Xm76k6TWM', 'bUG9rgQP9TKTkvaJoua8BoVl')
-    this.register(['transTypeName', 'getPracticeProgress','getHistoryList', 'addHistory', 'editHistory', 'setMusic', 'deleteHistory'])
+    this.register(['transTypeName', 'getPracticeProgress','getHistoryList', 'addHistory', 'editHistory', 'setMusic', 'deleteHistory', 'leanUpload'])
     let musicId = ParseTool.getQueryString('id')
+    model.mvvm.historyFile.on('change', model.mvvm.leanUpload)
     model.mvvm.musicId = musicId
     this.getPracticeProgress().then(() => {
       this.getHistoryList()
     })
-
   }
 
   transTypeName(id) {
@@ -48,6 +50,27 @@ class History extends Basic {
     } else {
       return id
     }
+  }
+
+  leanUpload() {
+    let fileControl = model.mvvm.historyFile[0]
+    if(fileControl.files.length > 0) {
+      let localFile = fileControl.files[0]
+      let name = localFile.name
+
+      let file = new AV.File(name, localFile)
+      file.save().then(function(uploadedFile){
+        console.log('上传成功')
+        console.log(uploadedFile.id)
+        model.mvvm.$set('currentHistory.file',{
+          id:uploadedFile.id,
+          className:'_File'
+        })
+        model.mvvm.historyFile.attr('value',null)
+      }, function(err) {
+
+      })
+    } 
   }
 
   getPracticeProgress() {
@@ -109,8 +132,14 @@ class History extends Basic {
   setMusic() {
     return new Promise(resolve => {
       let music = AV.Object.createWithoutData('MusicList', model.mvvm.musicId);
-      let progress = AV.Object.createWithoutData('Progress', model.mvvm.currentHistory.progress.id);
+      let currentHistory = model.mvvm.currentHistory
+      let progress = AV.Object.createWithoutData('Progress', currentHistory.progress.id);
       
+      if(currentHistory.file) {
+        let file = AV.Object.createWithoutData('_File', currentHistory.file.id);
+        music.set('musicFile', file)
+      }
+
       music.set('progress', progress)
       music.save().then(function(todo) {
         resolve()
@@ -129,7 +158,7 @@ class History extends Basic {
       model.mvvm.$set('currentHistory', history)
     } else {
       model.mvvm.currentMusicType = 'add'
-      model.mvvm.$set('currentHistory', {})
+      model.mvvm.$set('currentHistory', {name:'',content:'',file:{}})
     }
   }
 

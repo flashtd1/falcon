@@ -4,7 +4,7 @@ block right-content
   .col-xs-12
     .box
       .box-header
-        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editMusic()')
+        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editHistory()')
           i.fa.fa-plus
           | &nbsp;新增
         .box-tools
@@ -13,24 +13,25 @@ block right-content
             .input-group-btn
               button.btn.btn-default(type='submit')
                 i.fa.fa-search
-    ul.timeline
-      // timeline item
-      li(v-for='history in historys')
-        i.fa.fa-envelope.bg-blue
-        .timeline-item
-          span.time
-            i.fa.fa-clock-o
-            |  {{ history.createdAt }}
-          h3.timeline-header
-            | {{ history.name }}
-            a.btn.btn-info.btn-xs.pull-right {{ history.progress.name }}
-          .timeline-body
-            | {{ history.content }}
-          .timeline-footer
-            a.btn.btn-primary.btn-xs(data-toggle="modal" data-target="#appModal" @click='editHistory(history)') 编辑
-            a.btn.btn-danger.btn-xs(@click='deleteHistory(history)') 删除
-      li
-        i.fa.fa-clock-o.bg-gray
+      .box-body.table-responsive.no-padding
+        ul.timeline
+          // timeline item
+          li(v-for='history in historys')
+            i.fa.fa-envelope.bg-blue
+            .timeline-item
+              span.time
+                i.fa.fa-clock-o
+                |  {{ history.createdAt }}
+              h3.timeline-header
+                | {{ history.name }}
+                a.btn.btn-info.btn-xs.pull-right {{ history.progress.name }}
+              .timeline-body
+                | {{ history.content }}
+              .timeline-footer(v-if='$index == 0')
+                a.btn.btn-primary.btn-xs(data-toggle="modal" data-target="#appModal" @click='editHistory(history)') 编辑
+                a.btn.btn-danger.btn-xs(@click='deleteHistory(history)') 删除
+          li
+            i.fa.fa-clock-o.bg-gray
 
     #appModal.modal.modal-primary
       .modal-dialog
@@ -50,6 +51,11 @@ block right-content
                 .col-sm-6
                   select.form-control(v-model='currentHistory.progress.id')
                     option(value='{{progress.id}}' v-for='progress in progresses') {{ progress.name }}
+              .form-group
+                label.col-sm-2.control-label 文件上传
+                .col-sm-6
+                  label {{ currentHistory.file.attributes.name }}
+                  input(type='file' id='leanUpload' accept='audio/mpeg')
               .form-group
                 label.col-sm-2.control-label 记录一下
                 .col-sm-6
