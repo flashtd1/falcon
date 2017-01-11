@@ -48,6 +48,10 @@ const tasks = {
     cmd: 'cat ' + Vendor.css + ' ./dist/css/common/* | cleancss -o  dist/css/vendor.min.css --s0',
     tip: '公共 CSS 打包压缩'
   },
+  // 'sass': {
+  //   cmd: 'node-sass --output-style compressed ' + PC.css.src + ' -o ' + PC.css.dist,
+  //   tip: 'Sass预处理'
+  // },
   // 'minify:js' : {
   //   cmd: 'ls -l',
   //   tip: '压缩代码',

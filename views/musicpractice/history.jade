@@ -26,6 +26,10 @@ block right-content
                 | {{ history.name }}
                 a.btn.btn-info.btn-xs.pull-right {{ history.progress.name }}
               .timeline-body
+                div
+                  a.btn.btn-default.btn-xs(href='{{history.file.attributes.url}}' target='_blank')
+                    i.fa.fa-file-audio-o
+                    | {{ history.file.attributes.name }}
                 | {{ history.content }}
               .timeline-footer(v-if='$index == 0')
                 a.btn.btn-primary.btn-xs(data-toggle="modal" data-target="#appModal" @click='editHistory(history)') 编辑

@@ -52,6 +52,7 @@ class Index extends Basic {
   getPracticeProgress() {
     return new Promise(resolve => {
       let listQuery = new AV.Query('Progress')
+      listQuery.descending('order')
       listQuery.find().then(function(result) {
           model.mvvm.progresses = []
           result.map(function(item){
