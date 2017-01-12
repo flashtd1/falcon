@@ -24,7 +24,7 @@
           td {{ $index + 1}}
           td {{ progress.order }}
           td {{ progress.name }}
-          td {{ progress.updatedAt }}
+          td {{ progress.updatedAt.toLocaleDateString() }}
           td
             a(data-toggle="modal" data-target="#appModal" @click='editProgress(progress)')
               i.fa.fa-edit

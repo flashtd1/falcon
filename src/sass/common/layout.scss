@@ -1,0 +1,13 @@
+// 消息提示
+.alert-tip{
+  position: fixed;  top: -100px;  width: 400px;    z-index: 2000;     background-image: none;
+  &.alert-top-left{
+    left: 20px;
+  }
+  &.alert-top-center{
+    left: 50%;  margin-left: -200px;
+  }
+  &.alert-top-right{
+    right: 20px;
+  }
+}

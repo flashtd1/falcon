@@ -60,15 +60,14 @@ class History extends Basic {
 
       let file = new AV.File(name, localFile)
       file.save().then(function(uploadedFile){
-        console.log('上传成功')
-        console.log(uploadedFile.id)
         model.mvvm.$set('currentHistory.file',{
           id:uploadedFile.id,
           className:'_File'
         })
         model.mvvm.historyFile.attr('value',null)
+        Core.alert('success', '上传成功')
       }, function(err) {
-
+        Core.alert('danger', err)
       })
     } 
   }
@@ -124,7 +123,6 @@ class History extends Basic {
       })
       
     }, function (error) {
-      console.error(error)
       Core.alert('danger', error.toString())
     });
   }

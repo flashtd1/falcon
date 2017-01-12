@@ -32,7 +32,7 @@
           td
             span.label.label-info {{ music.progress.name }}
           td {{ music.desc }}
-          td {{ music.updatedAt }}
+          td {{ music.updatedAt.toLocaleDateString() }}
           td
             a(href='/musicpractice/history?id={{ music.id }}')
               i.fa.fa-history
