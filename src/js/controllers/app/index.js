@@ -58,7 +58,7 @@ class Index extends Basic {
     API.get('classes/name/apps', {}, (data) => {
       model.mvvm.$set('apps', data.item)
     }, (err) => {
-
+      Core.alert('danger', err)
     })
   }
 
@@ -66,8 +66,9 @@ class Index extends Basic {
     let tempApp = model.mvvm.currentApp
     API.post('classes/name/apps', tempApp, (data) => {
       model.getAppList()
+      Core.alert('success', '添加成功')
     }, (err) => {
-
+      Core.alert('danger', err)
     })
   }
 
@@ -75,8 +76,9 @@ class Index extends Basic {
     let tempApp = model.mvvm.currentApp
     API.put('classes/name/apps/id/' + tempApp.id, tempApp, (data) => {
       model.getAppList()
+      Core.alert('success', '修改成功')
     }, (err) => {
-
+      Core.alert('danger', err)
     })
   }
 
@@ -94,8 +96,9 @@ class Index extends Basic {
     if(confirm('是否确定要删除 ' + app.name + ' 这条应用')) {
       API.delete('classes/name/apps/id/' + app.id, {}, (data) => {
         model.getAppList()
+        Core.alert('success', '删除成功')
       }, (err) => {
-
+        Core.alert('danger', err)
       })
     } else {
 
