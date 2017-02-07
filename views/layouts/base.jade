@@ -22,7 +22,7 @@ html
         action: '#{route.action}',
       },
       API: {
-        url: 'http://' + window.location.host.replace(':' + window.location.port, '') + '/wxservice/api/'
+        url: '#{API.host}'
       },
       app_key: "222",
       app_id: "111",

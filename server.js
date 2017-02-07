@@ -10,6 +10,7 @@ const Koa = require('koa'),
   url = require('url'),
   qs = require('querystring'),
   fs = require('fs'),
+  config = require('./config/config.json'),
   pages = require('./lib/page'),
   menus = require('./lib/sidebar')
 
@@ -34,6 +35,9 @@ let render = async (ctx, controller, action) => {
     route: {
       controller: controller,
       action: action
+    },
+    API: {
+      host: config.host
     },
     query: qs.parse(url.parse(ctx.request.url).query),
     page: pages[controller + '/' +  action],
@@ -64,4 +68,4 @@ app
   .use(router.allowedMethods())
 
 
-app.listen(3000)
+app.listen(config.port || 3000)
