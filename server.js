@@ -19,6 +19,7 @@ app.use(mount('/dist', serve(__dirname + '/dist')))
 app.use(mount('/', serve(__dirname + '/public')))
 app.use(mount('/', serve(__dirname + '/vendor')))
 app.use(mount('/', serve(__dirname + '/images')))
+app.use(mount('/', serve(__dirname + '/certs')))
 
 
 // 视图处理
