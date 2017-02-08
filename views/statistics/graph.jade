@@ -1,0 +1,88 @@
+extends ../layouts/console.jade
+
+block right-content
+  .col-xs-12
+    .box
+      .box-header
+        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editApp()')
+          i.fa.fa-plus
+          | &nbsp;新增
+        .box-tools
+          .input-group.input-group-sm(style='width: 150px;')
+            input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+            .input-group-btn
+              button.btn.btn-default(type='submit')
+                i.fa.fa-search
+      // /.box-header
+      .box-body.table-responsive.no-padding
+        table.table.table-hover
+          thead
+            tr
+              th #
+              th 名称
+              th 数据来源
+              th 图表类型
+              th open_id
+              th 创建时间
+              th 更新时间
+              th 操作
+          tbody
+            tr(v-for="graph in graphs")
+              td {{ $index + 1}}
+              td {{ graph.name }}
+              td {{ graph.type }}
+              td
+                span.label.label-info {{ transTypeName(graph.inner) }}
+              td {{ graph.open_id }}
+
+              td {{ getLocalDate(graph.createdAt) }}
+              td {{ getLocalDate(graph.updatedAt) }}
+              td 
+                a(data-toggle="modal" data-target="#appModal" @click='editApp(graph)')
+                  i.fa.fa-edit
+                a(@click='deleteApp(graph)')
+                  i.fa.fa-trash
+      // /.box-body
+    // /.box
+
+    #appModal.modal.modal-primary
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title 新增图表
+          .modal-body
+            div.form-horizontal
+              .form-group
+                label.col-sm-2.control-label 名称
+                .col-sm-6
+                  input.form-control(v-model='currentApp.name')
+              .form-group
+                label.col-sm-2.control-label 图表类型
+                .col-sm-6
+                  input.form-control(v-model='currentApp.type')
+              .form-group
+                label.col-sm-2.control-label 数据来源
+                .col-sm-6
+                  select.form-control(v-model='currentApp.inner' )
+                    option(value='1') 内部
+                    option(value='0') 外部
+              .form-group
+                label.col-sm-2.control-label 配置
+                .col-sm-6
+                  textarea.form-control(v-model='currentApp.config')
+              .form-group
+                label.col-sm-2.control-label open_id(选填)
+                .col-sm-6
+                  input.form-control(v-model='currentApp.open_id')
+              .form-group
+                label.col-sm-2.control-label 描述
+                .col-sm-6
+                  textarea.form-control(v-model='currentApp.desc')
+          .modal-footer
+            button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+            button.btn.btn-outline(type='button' @click='(currentAppType == "add") ? addApp() : setApp()') 保存
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal

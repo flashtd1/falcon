@@ -1,0 +1,77 @@
+extends ../layouts/console.jade
+
+block right-content
+  .col-xs-12
+    .box
+      .box-header
+        button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editApp()')
+          i.fa.fa-plus
+          | &nbsp;新增
+        .box-tools
+          .input-group.input-group-sm(style='width: 150px;')
+            input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+            .input-group-btn
+              button.btn.btn-default(type='submit')
+                i.fa.fa-search
+      // /.box-header
+      .box-body.table-responsive.no-padding
+        table.table.table-hover
+          thead
+            tr
+              th #
+              th 名称
+              th openid
+              th 创建时间
+              th 更新时间
+              th 操作
+          tbody
+            tr(v-for="type in types")
+              td {{ $index + 1}}
+              td {{ type.name }}
+              td {{ type.open_id }}
+              td {{ getLocalDate(type.createdAt) }}
+              td {{ getLocalDate(type.updatedAt) }}
+              td 
+                a(data-toggle="modal" data-target="#appModal" @click='editApp(type)')
+                  i.fa.fa-edit
+                a(@click='deleteApp(type)')
+                  i.fa.fa-trash
+      // /.box-body
+    // /.box
+
+    #appModal.modal.modal-primary
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+            h4.modal-title 新增App
+          .modal-body
+            div.form-horizontal
+              .form-group
+                label.col-sm-2.control-label 名称
+                .col-sm-6
+                  input.form-control(v-model='currentApp.name')
+              .form-group
+                label.col-sm-2.control-label AppID
+                .col-sm-6
+                  input.form-control(v-model='currentApp.app_id')
+              .form-group
+                label.col-sm-2.control-label AppKey
+                .col-sm-6
+                  input.form-control(v-model='currentApp.app_key')
+              .form-group
+                label.col-sm-2.control-label 类别
+                .col-sm-6
+                  select.form-control(v-model='currentApp.type_poi_app_types' )
+                    option(value='{{type.id}}' v-for='type in app_types') {{ type.name }}
+              .form-group
+                label.col-sm-2.control-label 描述
+                .col-sm-6
+                  textarea.form-control(v-model='currentApp.desc')
+          .modal-footer
+            button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+            button.btn.btn-outline(type='button' @click='(currentAppType == "add") ? addApp() : setApp()') 保存
+        // /.modal-content
+      // /.modal-dialog
+    // /.modal

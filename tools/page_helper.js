@@ -49,10 +49,16 @@ dirs.map((dir) => {
     let jades = fs.readdirSync(currentDir)
     jades.map((jade) => {
       let index = dir + '/' + jade.split('.')[0]
+      let expectedName = getNameFromSidebar(index)
+
       if(pages[index]) {
-        pages[index] = getNameFromSidebar(index)
+        if(expectedName.name == '待填写') {
+          if(pages[index].name != '待填写') {}
+        } else {
+          pages[index] = expectedName
+        }
       } else {
-        pages[index] = getNameFromSidebar(index)
+        pages[index] = expectedName
       }
     })
   }
