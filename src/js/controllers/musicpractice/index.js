@@ -65,10 +65,17 @@ class Index extends Basic {
     
   }
 
-  getMusicList() {
+  getMusicList(pages) {
     let listQuery = new AV.Query('MusicList')
     listQuery.include('progress').descending('objectId')
     listQuery.find().then(function(result) {
+        listQuery.count().then(function(count) {
+          API.pagination(count, {
+            page: pages
+          }, (event, p) => {
+            model.getMusicList(p)
+          })
+        })
         model.mvvm.list = []
         result.map(function(item){
             let obj = ParseTool.Parse2Obj(item)
