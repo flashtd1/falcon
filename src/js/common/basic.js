@@ -9,7 +9,8 @@ class Basic {
       data: {
         session: SITE.session,
         submit_disabled: false,
-        export_status: 'normal'
+        export_status: 'normal',
+        pagesize: 20
       },
       components: {
 
@@ -32,7 +33,7 @@ class Basic {
   }
 
   initBasic() {
-    this.register(['logout','stringify', 'getLocalDate'])
+    this.register(['logout','stringify', 'getLocalDate', 'refreshPagination', 'pageDown', 'pageUp'])
   }
 
   register(methods){
@@ -46,7 +47,7 @@ class Basic {
   }
 
   getLocalDate(timestamp) {
-    return new Date(parseInt(timestamp) * 1000).toLocaleString().substr(0,17)
+    return new Date(parseInt(timestamp) * 1000).toLocaleString()
   }
 
   logout() {

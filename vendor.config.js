@@ -8,7 +8,8 @@ let assets = {
     'app.min',
     'underscore-min',
     'vue.min',
-    'av-min'
+    'av-min',
+    'jquery.twbsPagination'
   ],
   css: [
     'bootstrap.min',

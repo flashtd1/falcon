@@ -40,5 +40,40 @@ window.API = {
 	delete: (route, params, successHandler, errorHandler) => {
 		let url = baseurl + route
 		API.ajax(url, 'delete', params, successHandler, errorHandler)
+	},
+
+	pagination: (count, option, callback) => {
+		let pagesize = option.pagesize || 20
+		let page = option.page || 1
+		let wraper = $(option.wraper || '.box')
+		console.log(wraper)
+		if(wraper.length < 1 || count < 1) { return }
+
+		let paper = wraper.find('div.page-wraper')
+		if (paper.length < 1) { return }
+
+		paper.wrap('<div class="page-wraper"></div>')
+		paper.remove()
+
+
+		let totalPages = Math.ceil(count / pagesize)
+		wraper.find('div.page-wraper').twbsPagination({
+			totalPages: totalPages,
+			visiblePages: 5,
+			startPage: page,
+			initiateStartPageClick: false,
+			first: '首页',
+			prev: '<<',
+			next: '>>',
+			last: '末页',
+			goto: '跳转',
+			pageClass: 'paginate_button',
+			paginationClass:'pagination pull-right no-margin',
+			onPageClick: function(event, p) {
+				option.page = p
+				callback(event, p)
+			}
+		})
+
 	}
 }
