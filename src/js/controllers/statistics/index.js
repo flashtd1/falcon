@@ -16,7 +16,7 @@ class Index extends Basic {
 
   init() {
     this.register(['getStatisticList'])
-    this.getStatisticList(1)
+    this.getStatisticList(0)
   }
 
   getStatisticList(skip) {
