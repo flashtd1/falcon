@@ -49,8 +49,8 @@ class Wechat extends Basic {
   getConfig() {
     API.get('classes/name/config/id/1', {}, (data) => {
       model.mvvm.$set('config', data)
-    }, (err) => {
-
+    }, (error) => {
+      Core.alert('error', error.message)
     })
   }
 
@@ -62,43 +62,46 @@ class Wechat extends Basic {
       welcome:model.mvvm.config.welcome
     }, (data) => {
       Core.alert('success', '修改配置成功')
-    }, (err) => {
-
+    }, (error) => {
+      Core.alert('error', error.message)
     })
   }
 
-  getUsers(pages) {
+  getUsers(skip) {
     API.get('classes/name/user', {
       'limit': model.mvvm.pagesize,
-      'skip': pages
+      'skip': skip
     }, (data) => {
       API.pagination(data.count, {
-        page: pages,
+        skip: skip,
         wraper: '#users'
-      }, (event, p) => {
-        model.getUsers(p)
+      }, (event, p, nskip) => {
+        console.log(nskip)
+        model.getUsers(nskip)
       })
       model.mvvm.$set('users', data.item)
-    }, (err) => {
+    }, (error) => {
+      Core.alert('error', error.message)
 
     })
   }
 
-  getLogs(pages) {
+  getLogs(skip) {
     API.get('classes/name/wx_logs', {
       'order':'-id',
       'limit': model.mvvm.pagesize,
-      'skip': pages
+      'skip': skip
     }, (data) => {
       API.pagination(data.count, {
-        page: pages,
+        skip: skip,
         wraper: '#logs'
-      }, (event, p) => {
-        model.getLogs(p)
+      }, (event, p, nskip) => {
+        model.getLogs(nskip)
       })
       model.mvvm.$set('logs', data.item)
-    }, (err) => {
-      
+    }, (error) => {
+      Core.alert('error', error.message)
+        
     })
   }
 
@@ -117,7 +120,8 @@ class Wechat extends Basic {
 
     API.post('classes/name/command', tempCommand, (data) => {
       model.getCommands(0)
-    }, (err) => {
+    }, (error) => {
+      Core.alert('error', error.message)
 
     })
   }
@@ -131,8 +135,8 @@ class Wechat extends Basic {
 
     API.put('classes/name/command/id/' + tempCommand.id, tempCommand, (data) => {
       model.getCommands(0)
-    }, (err) => {
-
+    }, (error) => {
+      Core.alert('error', error.message)
     })
   }
 
@@ -148,19 +152,20 @@ class Wechat extends Basic {
     }
   }
 
-  getCommands(pages) {
+  getCommands(skip) {
     API.get('classes/name/command', {
       'limit': model.mvvm.pagesize,
-      'skip': pages
+      'skip': skip
     }, (data) => {
       API.pagination(data.count, {
-        page: pages,
+        skip: skip,
         wraper: '#command'
-      }, (event, p) => {
-        model.getCommands(p)
+      }, (event, p, nskip) => {
+        model.getCommands(nskip)
       })
       model.mvvm.$set('commands', data.item)
-    }, (err) => {
+    }, (error) => {
+      Core.alert('error', error.message)
 
     })
   }
@@ -169,8 +174,8 @@ class Wechat extends Basic {
     if(confirm('是否确定要删除 ' + command.name + ' 这条命令')) {
       API.delete('classes/name/command/id/' + command.id, {}, (data) => {
         model.getCommands(0)
-      }, (err) => {
-
+      }, (error) => {
+        Core.alert('error', error.message)
       })
     } else {
 

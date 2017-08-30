@@ -49,8 +49,8 @@ class Index extends Basic {
   getAppType() {
     API.get('classes/name/app_types', {}, (data) => {
       model.mvvm.$set('app_types', data.item)
-    }, (err) => {
-
+    }, (error) => {
+      Core.alert('error', error.message)
     })
   }
 

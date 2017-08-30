@@ -44,7 +44,13 @@ window.API = {
 
 	pagination: (count, option, callback) => {
 		let pagesize = option.pagesize || 20
-		let page = option.page || 1
+		let page = 1
+		if(option.skip) {
+			page = (option.skip / pagesize) + 1
+		}
+
+		let skip = option.skip || page * pagesize
+
 		let wraper = $(option.wraper || '.box')
 		console.log(wraper)
 		if(wraper.length < 1 || count < 1) { return }
@@ -71,7 +77,8 @@ window.API = {
 			paginationClass:'pagination pull-right no-margin',
 			onPageClick: function(event, p) {
 				option.page = p
-				callback(event, p)
+				option.skip = (p - 1) * pagesize
+				callback(event, p, option.skip)
 			}
 		})
 

@@ -19,16 +19,16 @@ class Index extends Basic {
     this.getStatisticList(1)
   }
 
-  getStatisticList(pages) {
+  getStatisticList(skip) {
     API.get('classes/name/statistic', {
       order:'-createdAt',
       limit:model.mvvm.pagesize,
-      skip:pages
+      skip:skip
     }, (data) => {
       API.pagination(data.count, {
-        page: pages,
-      }, (event, p) => {
-        model.getStatisticList(p)
+        skip: skip,
+      }, (event, p, nskip) => {
+        model.getStatisticList(nskip)
       })
       model.mvvm.$set('statistics', data.item)
     }, (err) => {
