@@ -11,6 +11,23 @@ class Wechat extends Basic {
           currentLog:{},
           commands:[],
           currentCommandType: 'add',
+          currentFlow:{
+            id:0,
+            name:'',
+            type:'normal',
+            description:'',
+            return_type:'text',
+            source_data: 'static',
+            api_url:'',
+            content:'',
+            news:{
+              title:'',
+              desc:'',
+              picurl:'',
+              url:''
+            }
+          },
+          currentFlowType: 'add',
           currentCommand:{
             id:0,
             name:'',
@@ -26,7 +43,7 @@ class Wechat extends Basic {
               picurl:'',
               url:''
             }
-          }
+          },
         }
     	}
     })
@@ -39,11 +56,14 @@ class Wechat extends Basic {
     this.register([ 'setConfig' ,'getConfig',
       'getUsers', 'getLogs', 'showLog',
       'addCommand', 'setCommand', 'editCommand', 'getCommands', 'deleteCommand',
+      'addFlow', 'setFlow', 'editFlow', 'getFlow', 'deleteFlow',
     ])
     this.getCommands(0)
     this.getConfig()
     this.getUsers(0)
     this.getLogs(0)
+    this.getFlow(0)
+
   }
 
   getConfig() {
@@ -174,6 +194,72 @@ class Wechat extends Basic {
     if(confirm('是否确定要删除 ' + command.name + ' 这条命令')) {
       API.delete('classes/name/command/id/' + command.id, {}, (data) => {
         model.getCommands(0)
+      }, (error) => {
+        Core.alert('error', error.message)
+      })
+    } else {
+
+    }
+  }
+
+  addFlow() {
+    let tempFlow = model.mvvm.currentFlow
+    if(tempFlow.return_type == 'news')
+      tempFlow.content = JSON.stringify(tempFlow.news)
+
+    API.post('classes/name/flow', tempFlow, (data) => {
+      model.getFlow(0)
+    }, (error) => {
+      Core.alert('error', error.message)
+
+    })
+  }
+
+  setFlow() {
+    let tempFlow = model.mvvm.currentFlow
+    if(tempFlow.return_type == 'news')
+      tempFlow.content = JSON.stringify(tempFlow.news)
+    API.put('classes/name/flow/id/' + tempFlow.id, tempFlow, (data) => {
+      model.getFlow(0)
+    }, (error) => {
+      Core.alert('error', error.message)
+    })
+  }
+
+  editFlow(flow) {
+    if(flow) {
+      model.mvvm.currentFlowType = 'edit'
+      if(flow.return_type == 'news')
+        flow.news = JSON.parse(flow.content)
+      model.mvvm.$set('currentFlow', flow)
+    } else {
+      model.mvvm.currentFlowType = 'add'
+      model.mvvm.$set('currentFlow', {})
+    }
+  }
+
+  getFlow(skip) {
+    API.get('classes/name/flow', {
+      'limit': model.mvvm.pagesize,
+      'skip': skip
+    }, (data) => {
+      API.pagination(data.count, {
+        skip: skip,
+        wraper: '#flow'
+      }, (event, p, nskip) => {
+        model.getFlow(nskip)
+      })
+      model.mvvm.$set('flows', data.item)
+    }, (error) => {
+      Core.alert('error', error.message)
+
+    })
+  }
+
+  deleteFlow(flow) {
+    if(confirm('是否确定要删除 ' + flow.name + ' 这条流程')) {
+      API.delete('classes/name/flow/id/' + flow.id, {}, (data) => {
+        model.getFlow(0)
       }, (error) => {
         Core.alert('error', error.message)
       })

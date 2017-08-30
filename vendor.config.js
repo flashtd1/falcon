@@ -14,7 +14,8 @@ let assets = {
   css: [
     'bootstrap.min',
     'AdminLTE.min',
-    'skin-blue.min'
+    'skin-blue.min',
+    'mermaid.dark.min'
   ]
 }
 

@@ -1,6 +1,6 @@
 .box
   .box-header
-    button.btn.btn-success(data-toggle="modal" data-target="#myModal" @click='editFlow()') 新增
+    button.btn.btn-success(data-toggle="modal" data-target="#flowModal" @click='editFlow()') 新增
     .box-tools
       .input-group.input-group(style='width: 300px;')
         input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
@@ -14,7 +14,6 @@
         tr
           th #
           th 名称
-          th 类型
           th 描述
           th 更新时间
           th 操作
@@ -22,14 +21,42 @@
         tr(v-for="flow in flows")
           td {{ $index + 1}}
           td {{ flow.name }}
-          td
-            span.label.label-success {{ flow.type }}
-          td {{ flow.description }}
-          td {{ flow.updatedAt }}
+          td {{ flow.desc }}
+          td {{ getLocalDate(flow.updatedAt) }}
           td 
-            a(data-toggle="modal" data-target="#myModal" @click='editFlow(command)')
+            a(data-toggle="modal" data-target="#flowModal" @click='editFlow(flow)')
               i.fa.fa-edit
+            a(href='/app/flowstep?id={{ flow.id }}')
+              i.fa.fa-code-fork
             a(@click='deleteFlow(flow)')
               i.fa.fa-trash
   // /.box-body
+  .box-footer
+    .col-xs-5
+    .col-xs-7.page-wraper
 // /.box
+
+
+#flowModal.modal.modal-primary
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+        h4.modal-title 新增流程
+      .modal-body
+        div.form-horizontal
+          .form-group
+            label.col-sm-2.control-label 名称
+            .col-sm-6
+              input.form-control(v-model='currentFlow.name')
+          .form-group
+            label.col-sm-2.control-label 描述
+            .col-sm-6
+              textarea.form-control(v-model='currentFlow.desc')
+      .modal-footer
+        button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+        button.btn.btn-outline(type='button' @click='(currentFlowType == "add") ? addFlow() : setFlow()') 保存
+    // /.modal-content
+  // /.modal-dialog
+// /.modal
