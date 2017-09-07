@@ -40,6 +40,7 @@ let render = async (ctx, controller, action) => {
     API: {
       host: config.host
     },
+    version: config.version,
     query: qs.parse(url.parse(ctx.request.url).query),
     page: pages[controller + '/' +  action],
     menus: menus

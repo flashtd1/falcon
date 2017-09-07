@@ -1,4 +1,6 @@
 let model
+let url = require('url')
+let qs = require('querystring')
 
 class Basic {
   constructor(initData = {}) {
@@ -10,7 +12,8 @@ class Basic {
         session: SITE.session,
         submit_disabled: false,
         export_status: 'normal',
-        pagesize: 20
+        pagesize: 20,
+        params: qs.parse(url.parse(window.location.href).query)
       },
       components: {
 

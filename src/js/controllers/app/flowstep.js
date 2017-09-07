@@ -22,6 +22,7 @@ class Flowstep extends Basic {
 
     model = this
     this.init()
+    
   }
 
   init() {
@@ -38,7 +39,7 @@ class Flowstep extends Basic {
   getStep() {
     API.get('classes/name/flow_step', {
       where:JSON.stringify({
-        flow_poi_flow:2
+        flow_poi_flow: model.mvvm.params.id
       })
     }, (data) => {
       model.mvvm.$set('steps', data.item)
@@ -50,7 +51,7 @@ class Flowstep extends Basic {
 
   addStep() {
     let tempStep = model.mvvm.currentStep
-    tempStep.flow_poi_flow = 2
+    tempStep.flow_poi_flow = model.mvvm.params.id
     API.post('classes/name/flow_step', tempStep, (data) => {
       model.getStep()
       Core.alert('success', '添加成功')
