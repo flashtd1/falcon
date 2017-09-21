@@ -7,6 +7,7 @@ class Flowstep extends Basic {
       vue:{
         data:{
           steps: [],
+          commands: [],
           currentStepType: 'add',
           currentStep:{
             id:0,
@@ -26,8 +27,9 @@ class Flowstep extends Basic {
   }
 
   init() {
-    this.register(['cb', 'bb', 'getStep', 'addStep', 'editStep', 'setStep', 'deleteStep', 'calcFlowScript'])
+    this.register(['cb', 'getStep', 'addStep', 'editStep', 'setStep', 'deleteStep', 'calcFlowScript', 'getCommands', 'getCommandById'])
     this.getStep()
+    this.getCommands()
 
     // 初始化绘图插件
     mermaidAPI.initialize({
@@ -93,11 +95,36 @@ class Flowstep extends Basic {
     }
   }
 
+  getCommands(skip) {
+    API.get('classes/name/command', {
+      'limit': 1000,
+      'skip': skip
+    }, (data) => {
+      model.mvvm.$set('commands', data.item)
+    }, (error) => {
+      Core.alert('error', error.message)
+
+    })
+  }
+
+  getCommandById(id) {
+    return model.mvvm.commands.filter((command) => {
+      return command.id == id
+    })[0]
+  }
+
   calcFlowScript() {
     let script = 'graph TB'
+    let startNode
     model.mvvm.steps.map((step) => {
-      script += '\n' + step.name + ' --> ' + step.next_node
+      if(step.typcd == 'start') {
+        startNode = step
+      }
+      script += `\n ${$.trim(step.name)} --> ${$.trim(step.next_node)}`
     })
+    if(startNode) {
+      script += `\n style ${$.trim(startNode.name)} fill:green;`
+    }
     $('#scriptc').val(script)
     // 渲染新脚本前必须删除原来的元素，否则插入失败
     $('#mermaidxx').remove()

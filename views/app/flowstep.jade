@@ -17,6 +17,8 @@ block right-content
                 th 名称
                 th 描述
                 th 节点类型
+                th 输入类型
+                th 命令名称
                 th 后继节点
                 th 更新时间
                 th 操作
@@ -26,6 +28,8 @@ block right-content
                 td {{ step.name }}
                 td {{ step.desc }}
                 td {{ step.typcd }}
+                td {{ step.input_type }}
+                td {{ getCommandById(step.command_poi_command).name }}
                 td {{ step.next_node }}
                 td {{ getLocalDate(step.updatedAt) }}
                 td 
@@ -56,12 +60,26 @@ block right-content
               .col-sm-6
                 input.form-control(v-model='currentStep.name')
             .form-group
-              label.col-sm-2.control-label 类别
+              label.col-sm-2.control-label 节点类别
               .col-sm-6
                 select.form-control(v-model='currentStep.typcd')
                   option(value='start') 开始
                   option(value='normal') 过程
                   option(value='end') 结束
+            .form-group
+              label.col-sm-2.control-label 输入类别
+              .col-sm-6
+                select.form-control(v-model='currentStep.input_type')
+                  option(value='command') 命令
+                  option(value='text') 文字
+                  option(value='image') 图片
+                  option(value='voice') 声音
+                  option(value='location') 位置
+            .form-group(v-if="currentStep.input_type == 'command'")
+              label.col-sm-2.control-label 命令名称
+              .col-sm-6
+                select.form-control(v-model='currentStep.command_poi_command')
+                  option(v-for="command in commands" value="{{ command.id }}") {{ command.name }}
             .form-group
               label.col-sm-2.control-label 后继节点
               .col-sm-6
