@@ -4,27 +4,18 @@ block right-content
   .col-xs-12
     .nav-tabs-custom
       ul.nav.nav-tabs
-        li.active
-          a(href="#users", data-toggle="tab", aria-expanded="false") 用户管理
-        li
-          a(href="#command", data-toggle="tab", aria-expanded="false") 命令管理
-        li
-          a(href="#flow", data-toggle="tab", aria-expanded="true") 流程管理
-        li
-          a(href="#logs", data-toggle="tab", aria-expanded="true") 日志管理
-        li
-          a(href="#setting", data-toggle="tab", aria-expanded="true") 配置
+        li(class="#{(route.action == 'wechat_userlist')?'active':''}")
+          a(href="/app/wechat_userlist") 用户管理
+        li(class="#{(route.action == 'wechat_commands')?'active':''}")
+          a(href="/app/wechat_commands") 命令管理
+        li(class="#{(route.action == 'wechat_flow')?'active':''}")
+          a(href="/app/wechat_flow") 流程管理
+        li(class="#{(route.action == 'wechat_logs')?'active':''}")
+          a(href="/app/wechat_logs") 日志管理
+        li(class="#{(route.action == 'wechat_setting')?'active':''}")
+          a(href="/app/wechat_setting") 配置
 
       .tab-content
-        div#users.tab-pane.active
-          include ../layouts/pages/wechat/users.jade
-        div#command.tab-pane
-          include ../layouts/pages/wechat/commands.jade
-        div#flow.tab-pane
-          include ../layouts/pages/wechat/flow.jade
-        div#logs.tab-pane
-          include ../layouts/pages/wechat/logs.jade
-        div#setting.tab-pane
-          include ../layouts/pages/wechat/setting.jade
-          
+        div.tab-pane.active
+          block tab-content
   
