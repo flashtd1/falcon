@@ -1,0 +1,49 @@
+.box
+  .box-header
+    button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editThing()')
+      i.fa.fa-plus
+      | &nbsp;新增
+    .box-tools
+      .input-group.input-group-sm(style='width: 150px;')
+        input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+        .input-group-btn
+          button.btn.btn-default(type='submit')
+            i.fa.fa-search
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th 编号
+          th 图片
+          th 名称
+          th 类型
+          th 库存
+          th 创建时间
+          th 操作
+      tbody
+        tr(v-for="thing in repository")
+          td {{ $index + 1}}
+          td {{ thing.code }}
+          td 
+            div.cover(v-show="!thing.image" style="background-color:gray;width:50px;height:50px;")
+              i.fa.fa-music.list-icon
+            img.cover(v-show='thing.image' v-bind:src='thing.image + "?imageMogr2/thumbnail/!50x50r/gravity/center/crop/50x50"', alt='')
+          td {{ thing.name }}
+          td
+            span.label.label-info {{ thing.category }}
+          td {{ thing.num }}
+          td {{ music.createdAt.toLocaleDateString() }}
+          td
+            a(href='/repository/thing?id={{ thing.id }}')
+              i.fa.fa-history
+            a(data-toggle="modal" data-target="#appModal" @click='editThing(thing)')
+              i.fa.fa-edit
+            a(@click='deleteThing(thing)')
+              i.fa.fa-trash
+  // /.box-body
+  .box-footer
+    .col-xs-5
+    .col-xs-7.page-wraper
+// /.box

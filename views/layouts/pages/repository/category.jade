@@ -1,0 +1,39 @@
+.box
+  .box-header
+    button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editCategory()')
+      i.fa.fa-plus
+      | &nbsp;新增
+    .box-tools
+      .input-group.input-group-sm(style='width: 150px;')
+        input.form-control.pull-right(type='text', name='table_search', placeholder='Search')
+        .input-group-btn
+          button.btn.btn-default(type='submit')
+            i.fa.fa-search
+  // /.box-header
+  .box-body.table-responsive.no-padding
+    table.table.table-hover
+      thead
+        tr
+          th #
+          th 名称
+          th 描述
+          th 更新时间
+          th 操作
+      tbody
+        tr(v-for="category in categories")
+          td {{ $index + 1}}
+          td {{ category.name }}
+          td {{ category.desc }}
+          td {{ category.updatedAt.toLocaleDateString() }}
+          td
+            a(href='/repository/category_edit?id={{ category.id }}')
+              i.fa.fa-history
+            a(data-toggle="modal" data-target="#appModal" @click='editCategory(category)')
+              i.fa.fa-edit
+            a(@click='deleteCategory(category)')
+              i.fa.fa-trash
+  // /.box-body
+  .box-footer
+    .col-xs-5
+    .col-xs-7.page-wraper
+// /.box

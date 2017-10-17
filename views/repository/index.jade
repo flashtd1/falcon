@@ -1,0 +1,16 @@
+extends ../layouts/console.jade
+
+block right-content
+  .col-xs-12
+    .nav-tabs-custom
+      ul.nav.nav-tabs
+        li.active
+          a(href="#repository", data-toggle="tab", aria-expanded="false") 仓库
+        li
+          a(href="#category", data-toggle="tab", aria-expanded="false") 分类管理
+       
+      .tab-content
+        div#repository.tab-pane.active
+          include ../layouts/pages/repository/repository.jade
+        div#category.tab-pane
+          include ../layouts/pages/repository/category.jade
