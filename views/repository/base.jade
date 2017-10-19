@@ -1,0 +1,14 @@
+extends ../layouts/console.jade
+
+block right-content
+  .col-xs-12
+    .nav-tabs-custom
+      ul.nav.nav-tabs
+        li(class="#{(route.action == 'index')?'active':''}")
+          a(href="/repository/index") 仓库
+        li(class="#{(route.action == 'category')?'active':''}")
+          a(href="/repository/category") 分类管理
+       
+      .tab-content
+        div.tab-pane.active
+          block tab-content

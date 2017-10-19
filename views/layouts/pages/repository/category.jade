@@ -1,6 +1,6 @@
 .box
   .box-header
-    button.btn.btn-success(data-toggle="modal" data-target="#appModal" @click='editCategory()')
+    button.btn.btn-success(data-toggle="modal" data-target="#categoryModal" @click='editCategory()')
       i.fa.fa-plus
       | &nbsp;新增
     .box-tools
@@ -24,11 +24,9 @@
           td {{ $index + 1}}
           td {{ category.name }}
           td {{ category.desc }}
-          td {{ category.updatedAt.toLocaleDateString() }}
+          td {{ getLocalDate(category.updatedAt) }}
           td
-            a(href='/repository/category_edit?id={{ category.id }}')
-              i.fa.fa-history
-            a(data-toggle="modal" data-target="#appModal" @click='editCategory(category)')
+            a(data-toggle="modal" data-target="#categoryModal" @click='editCategory(category)')
               i.fa.fa-edit
             a(@click='deleteCategory(category)')
               i.fa.fa-trash
@@ -37,3 +35,30 @@
     .col-xs-5
     .col-xs-7.page-wraper
 // /.box
+#categoryModal.modal.modal-primary
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+        h4.modal-title 新增分类
+      .modal-body
+        div.form-horizontal
+          .form-group
+            label.col-sm-2.control-label 名称
+            .col-sm-6
+              input.form-control(v-model='currentCategory.name')
+          .form-group
+            label.col-sm-2.control-label 描述
+            .col-sm-6
+              textarea.form-control(v-model='currentCategory.desc')
+          .form-group
+            label.col-sm-2.control-label 扩展结构
+            .col-sm-6
+              textarea.form-control(v-model='currentCategory.extend_struct')
+      .modal-footer
+        button.btn.btn-outline.pull-left(type='button', data-dismiss='modal') Close
+        button.btn.btn-outline(type='button' @click='(currentCategoryType == "add") ? addCategory() : setCategory()') 保存
+    // /.modal-content
+  // /.modal-dialog
+// /.modal
